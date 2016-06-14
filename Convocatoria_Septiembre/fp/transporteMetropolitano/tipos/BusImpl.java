@@ -1,6 +1,8 @@
 package fp.transporteMetropolitano.tipos;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * 14 jun. 2016
@@ -10,17 +12,21 @@ import java.time.LocalDate;
  */
 public class BusImpl implements Bus {
 	
+	/************* ATRIBUTOS *****************/
+	
 	private String matricula;
 	private LocalDate fechaInicio;
 	private Integer pasajeros;
 	private static final Integer MAX_PASAJEROS = 100;
+	
+	/************* CONSTRUCTORES *****************/
 	
 	public BusImpl(String matricula, LocalDate fechaInicio, Integer pasajeros ){
 		
 		checkNotNull(matricula);
 		checkNotNull(fechaInicio);
 		checkNotNull(pasajeros);
-		checkfechaInicio(fechaInicio);
+		checkFechaInicio(fechaInicio);
 		checkNumeroMaximoPasajeros (pasajeros);
 
 		this.matricula = matricula;
@@ -30,6 +36,37 @@ public class BusImpl implements Bus {
 		
 	}
 	
+	public BusImpl(String bus){
+		
+		//Troceamos la cadena con split
+		String[] trozos = bus.split("#");
+		
+		//Verificamos que tiene la longitud adecuada
+		if (trozos.length != 3) {
+		throw new IllegalArgumentException(
+		"El formato de la cadena de entrada no es correcto.");
+		}
+		
+		//Trimeamos y contruimos los objetos
+		String matricula = trozos[0].trim();
+		LocalDate fecha = LocalDate.parse(trozos[1].trim(),
+		DateTimeFormatter.ofPattern("d/M/y"));
+		Integer maxPasajeros= new Integer(trozos[2].trim());
+		
+		//Comprobamos de nuevo los chekcs
+		checkNotNull(matricula);
+		checkNotNull(fecha);
+		checkNotNull(maxPasajeros);
+		checkFechaInicio(fecha);
+		checkNumeroMaximoPasajeros(maxPasajeros);
+		
+		//Copiamos los atributos de nuevo
+		this.matricula = matricula;
+		this.fechaInicio = fecha;
+		this.pasajeros = maxPasajeros;
+		}
+
+	
 	/*********EXCEPCIONES*************/
 	
 	private void checkNotNull(Object o) {
@@ -38,7 +75,7 @@ public class BusImpl implements Bus {
 		}
 	}
 
-	private void checkfechaInicio(LocalDate fecha) {
+	private void checkFechaInicio(LocalDate fecha) {
 		if (!fecha.isBefore(LocalDate.now())) {
 			throw new IllegalArgumentException();
 		}
@@ -52,26 +89,27 @@ public class BusImpl implements Bus {
 
 	/********GETTERS & SETTERS*************/
 	
-	@Override
+	
 	public String getMatricula() {
-		// TODO Auto-generated method stub
+		
 		return matricula;
 	}
 
-	@Override
+	
 	public LocalDate getFechaInicio() {
-		// TODO Auto-generated method stub
+	
 		return fechaInicio;
 	}
 
-	@Override
+	
 	public Integer getAnyos() {
-		// TODO Auto-generated method stub
-		return null;
+		
+			return (int)getFechaInicio().until(LocalDate.now(),ChronoUnit.YEARS);
+			
 	}
 	
 	public Integer getMaxPasajeros() {
-		// TODO Auto-generated method stub
+		
 		return pasajeros;
 	}
 	
@@ -79,6 +117,42 @@ public class BusImpl implements Bus {
 		checkNumeroMaximoPasajeros(p);
 		pasajeros = p;
 		}
-	
 
+	/********EQUALS HASHCODE COMPARETO*************/
+	
+	public int hashCode() {
+		
+		return getMatricula().hashCode()*31;
+		
+	}
+
+	
+	public boolean equals(Object o) {
+	
+		boolean result = false;
+
+		if (o instanceof Bus) {
+
+			Bus c = (Bus) o;
+			result = this.getMatricula().equals(c.getMatricula());
+
+		}
+
+		return result;
+
+	}
+	
+	public int compareTo(Bus b) {
+		
+		int res = getMatricula().compareTo(b.getMatricula());
+		return res;
+		
+	}
+	
+	/********TOSTRING*************/
+	
+	public String toString(){
+		return getMatricula();
+	}
+	
 }
