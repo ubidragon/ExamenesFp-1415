@@ -8,11 +8,14 @@ import java.time.LocalDate;
  *
  * ExamenesFp-1415
  */
-public interface Bus {
+public interface Bus extends Comparable<Bus>{
 	
 	String getMatricula();
 	LocalDate getFechaInicio();
 	Integer getMaxPasajeros();
 	Integer getAnyos();
+	
+	void setPasajeros(Integer pasajeros);
+	
 
 }
