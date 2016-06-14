@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Primer_Parcial"/>
+	<classpathentry kind="src" path="Segundo_Parcial"/>
+	<classpathentry kind="src" path="Convocatoria_Junio"/>
+	<classpathentry kind="src" path="Convocatoria_Septiembre"/>
+	<classpathentry kind="src" path="Convocatoria_Diciembre"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
