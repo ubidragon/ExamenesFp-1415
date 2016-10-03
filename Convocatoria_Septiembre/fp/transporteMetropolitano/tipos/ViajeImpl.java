@@ -99,6 +99,8 @@ public class ViajeImpl implements Viaje {
 
 	public void setTiempo(Double tiempo) {
 		// TODO Auto-generated method stub
+		Trayecto t = new TrayectoImpl(Origen, Destino, duracion);
+		tiempo = (int) t;
 		
 	}
 
